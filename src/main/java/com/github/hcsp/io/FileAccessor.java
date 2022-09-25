@@ -41,12 +41,12 @@ public class FileAccessor {
     }
 
     public static void writeLinesToFile1(List<String> lines, File file) throws IOException {
-        OutputStream output = new FileOutputStream(file);
-        String resource = StringUtils.join(lines, System.getProperty("line.separator"));
-        for (int i = 0; i < resource.length(); i++) {
-            output.write(resource.charAt(i));
+        try (OutputStream output = new FileOutputStream(file)) {
+            String resource = StringUtils.join(lines, System.getProperty("line.separator"));
+            for (int i = 0; i < resource.length(); i++) {
+                output.write(resource.charAt(i));
+            }
         }
-        output.close();
     }
 
     public static void writeLinesToFile2(List<String> lines, File file) throws IOException {
@@ -54,12 +54,12 @@ public class FileAccessor {
     }
 
     public static void writeLinesToFile3(List<String> lines, File file) throws IOException {
-        BufferedWriter writer = new BufferedWriter(new FileWriter(file));
-        for (String line : lines) {
-            writer.write(line);
-            writer.newLine();
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter(file));) {
+            for (String line : lines) {
+                writer.write(line);
+                writer.newLine();
+            }
         }
-        writer.close();
     }
 
     public static void main(String[] args) throws IOException {
